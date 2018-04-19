@@ -2,7 +2,7 @@ const assert = require('assert');
 const test = require('unit.js');
 const should = require('should');
 const mongoose = require('mongoose');
-const Users = require('../../api/models/Users').Users;
+const Users = require('../../api/models/users');
 
 let options = {
   dbName: 'test',
@@ -17,7 +17,11 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 mongoose.connect('mongodb://localhost:27017/test', options, function(error) {
-  console.log('Connect Error: ', error);
+  if (error) {
+    console.log('Connect Error: ', error);
+  } else {
+    console.log('Test DB Connection Successful');
+  }
 });
 
 const db = mongoose.connection;
@@ -43,12 +47,6 @@ describe('hooks', function() {
   after('Base after hook', function() {
     // runs after all tests in this block
     console.log('After All');
-    db.dropDatabase(function(err, result) {
-      if (err) console.log('err: ', err);
-      if (result) console.log('result: ', result);
-      db.close();
-    });
-
   });
 
   beforeEach(function() {
@@ -74,6 +72,11 @@ describe('hooks', function() {
       // this.timeout(5000);
 
       it('should save without error', function(done) {
+        db.dropDatabase(function(err, result) {
+          if (err) console.log(`Drop Database Error: ${err}`);
+          // db.close();
+        });
+
         let user1 = new Users({
           'email': 'cavenC',
           'password': '12345678'
@@ -104,6 +107,5 @@ describe('hooks', function() {
         }).should.eventually.have.length(3);
       });
     });
-
   });
 });
