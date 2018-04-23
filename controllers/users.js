@@ -4,64 +4,93 @@ const should = require('should');
 
 const users = require('../../api/controllers/users');
 
-describe('CONTROLLER - USERS - HOOKS', function() {
+describe('CONTROLLER: USERS', function() {
   before('BEFORE', function() {
     // runs before all tests in this block
-    console.log('Open DB Connetion and start tests Controller');
   });
 
   after('AFTER', function() {
     // runs after all tests in this block
-    console.log('After All Controller');
   });
 
   beforeEach('BEFORE EACH', function() {
     // runs before each test in this block
-    console.log('Before Each Controller');
   });
 
   afterEach('AFTER EACH', function() {
     // runs after each test in this block.
-    console.log('After Each Controller');
   })
 
-  describe('USERS BASE', function() {
-    describe('GET - all users', function() {
-      it('Should return a list of all users.', function() {
-        // let test = users.get();
+  describe('GET', function() {
+    describe('ALL', function() {
+      it('Should return a list of 3 users.', function(done) {
         let req = {
           params: {}
         };
 
         let res = {
-          status: (status) => {
-            assert.equal(200, status);
+          status: function(status) {
+            // assert.equal(300, status);
           },
           json: (user) => {
-            assert.equal(user.length, 3);
+            try {
+              assert.equal(user.length, 3);
+              done();
+            }
+            catch(error) {
+              done(error);
+            }
           }
         };
 
-        users.get(req, res);
+        users.get(req, res, done);
       });
     });
 
-    describe('GET - one user', function() {
-      it('should return -1 when the value is not present', function() {
-        assert.equal([1, 2, 3].indexOf(4), -1);
+    describe('ONE', function() {
+      it('Should return a specific user.', function(done) {
+        let req = {
+          params: {}
+        };
+
+        let res = {
+          status: function(status) {},
+          json: (user) => {
+            try {
+              assert.equal(user.length, 3);
+              done();
+            }
+            catch(error) {
+              done(error);
+            }
+          }
+        };
+
+        users.get(req, res, done);
       });
     });
+  });
 
-    describe('PUT - one user', function() {
-      it('should return -1 when the value is not present', function() {
-        assert.equal([1, 2, 3].indexOf(4), -1);
-      });
-    });
+  describe('PUT', function() {
+    it('Should add one user.', function(done) {
+      let req = {
+        params: {}
+      };
 
-    describe('DELETE - one user', function() {
-      it('should return -1 when the value is not present', function() {
-        assert.equal([1, 2, 3].indexOf(4), -1);
-      });
+      let res = {
+        status: function(status) {},
+        json: (user) => {
+          try {
+            assert.equal(user.length, 3);
+            done();
+          }
+          catch(error) {
+            done(error);
+          }
+        }
+      };
+
+      users.get(req, res, done);
     });
   });
 });
