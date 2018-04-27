@@ -60,16 +60,19 @@ describe('MODELS: USERS', function() {
 
       let user1 = new Users({
         'email': 'cavenC',
+        'salt': '12345678',
         'password': '12345678'
       });
 
       let user2 = new Users({
         'email': 'cavenC',
+        'salt': '12345678',
         'password': '12345678'
       });
 
       let user3 = new Users({
         'email': 'cavenCadsfadf',
+        'salt': '12345678',
         'password': '12345678'
       });
 
